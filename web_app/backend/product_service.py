@@ -2,8 +2,8 @@ from typing import Any
 
 import httpx
 
-from backend.models import Product, ProductPage
-from backend.utils import build_products_url, calculate_pagination
+from .models import Product, ProductPage
+from .utils import build_products_url, calculate_pagination
 
 
 class ProductServiceError(RuntimeError):

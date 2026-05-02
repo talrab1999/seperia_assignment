@@ -5,9 +5,9 @@ from fastapi import APIRouter, Query, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from backend.models import ProductPage
-from backend.product_service import ProductServiceError, fetch_products
-from backend.utils import DEFAULT_LIMIT, LIMIT_OPTIONS, build_page_numbers, calculate_pagination
+from .models import ProductPage
+from .product_service import ProductServiceError, fetch_products
+from .utils import DEFAULT_LIMIT, LIMIT_OPTIONS, build_page_numbers, calculate_pagination
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
