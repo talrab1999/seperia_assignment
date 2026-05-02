@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Seperia Assignment</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <main class="page-shell">
+        <header class="page-header">
+            <div>
+                <p class="eyebrow">Seperia EShop</p>
+                <h1>Products Page</h1>
+            </div>
+        </header>
+
+        <form class="toolbar" action="/" method="get">
+            <div class="search-field">
+                <label for="q">Search Bar</label>
+                <input id="q" name="q" type="search" value="{{ model.query }}" placeholder="Search Product">
+            </div>
+            <div class="limit-field">
+                <label for="limit">Per page</label>
+                <select id="limit" name="limit">
+                    {% for option in limit_options %}
+                    <option value="{{ option }}"{% if option == model.limit %} selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="search-button" type="submit">Search</button>
+            {% if model.query %}
+            <a class="clear-link" href="/">Clear</a>
+            {% endif %}
+        </form>
+
+        {% if model.error %}
+        <div class="notice error" role="alert">{{ model.error }}</div>
+        {% elif model.total == 0 %}
+            {% if model.query %}
+        <p class="result-count">No products match "{{ model.query }}".</p>
+            {% else %}
+        <p class="result-count">No products are available.</p>
+            {% endif %}
+        {% else %}
+        <p class="result-count">
+            Showing {{ model.start_item }}-{{ model.end_item }} of {{ model.total }}
+            {{ "product" if model.total == 1 else "products" }}{% if model.query %} for "{{ model.query }}"{% endif %}.
+        </p>
+        {% endif %}
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Thumbnail</th>
+                        <th scope="col">Gallery</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not model.products %}
+                    <tr><td class="empty-state" colspan="9">No products found.</td></tr>
+                    {% else %}
+                        {% for product in model.products %}
+                            {% set product_id = product.id or loop.index %}
+                            {% set title = product.title or "-" %}
+                    <tr class="product-row">
+                        <td class="title-cell">{{ title }}</td>
+                        <td class="description-cell">{{ product.description or "-" }}</td>
+                        <td>{% if product.price is not none %}${{ "%.2f"|format(product.price) }}{% else %}-{% endif %}</td>
+                        <td>{% if product.rating is not none %}{{ "%.2f"|format(product.rating) }}{% else %}-{% endif %}</td>
+                        <td>{{ product.stock if product.stock is not none else "-" }}</td>
+                        <td>{{ product.brand or "-" }}</td>
+                        <td>{{ product.category or "-" }}</td>
+                        <td>
+                            {% if product.thumbnail %}
+                            <img class="thumbnail" src="{{ product.thumbnail }}" alt="{{ title }} thumbnail" loading="lazy">
+                            {% else %}
+                            <span class="muted">No image</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <button class="gallery-toggle" type="button" aria-expanded="false" aria-controls="gallery-{{ product_id }}">
+                                Gallery
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="gallery-row" id="gallery-{{ product_id }}" hidden>
+                        <td colspan="9">
+                            <div class="gallery-panel" role="region" aria-label="Gallery for {{ title }}">
+                                {% if not product.images %}
+                                <p class="gallery-empty">No gallery images available.</p>
+                                {% else %}
+                                    {% for image in product.images[:3] %}
+                                <img src="{{ image }}" alt="{{ title }} gallery image {{ loop.index }}" loading="lazy">
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if model.total > 0 %}
+        <nav class="pagination" aria-label="Product pages">
+            {% if model.page == 1 %}
+            <span class="page-control disabled" aria-disabled="true">Previous</span>
+            {% else %}
+            <a class="page-control" href="{{ page_href(model.query, model.page - 1, model.limit) }}">Previous</a>
+            {% endif %}
+
+            {% for page in pages %}
+                {% if page == "..." %}
+            <span class="page-gap" aria-hidden="true">...</span>
+                {% elif page == model.page %}
+            <span class="page-control current" aria-current="page">{{ page }}</span>
+                {% else %}
+            <a class="page-control" href="{{ page_href(model.query, page, model.limit) }}">{{ page }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if model.page == model.total_pages %}
+            <span class="page-control disabled" aria-disabled="true">Next</span>
+            {% else %}
+            <a class="page-control" href="{{ page_href(model.query, model.page + 1, model.limit) }}">Next</a>
+            {% endif %}
+        </nav>
+        {% endif %}
+    </main>
+    <script src="/static/gallery.js" defer></script>
+</body>
+</html>
