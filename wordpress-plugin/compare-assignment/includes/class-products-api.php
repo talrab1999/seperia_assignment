@@ -65,7 +65,7 @@ final class Compare_Assignment_Products_Api
             'timeout' => self::REQUEST_TIMEOUT,
             'headers' => [
                 'Accept' => 'application/json',
-                'User-Agent' => 'seperia-products-assignment/1.0',
+                'User-Agent' => 'e-commerce-product-shop/1.0',
             ],
         ]);
 

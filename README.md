@@ -1,6 +1,6 @@
-# Seperia Assignment
+# E-Commerce Product Shop
 
-FastAPI web application for the Seperia full-stack assignment. It fetches products from DummyJSON, renders a paginated product table, supports searching, and uses JavaScript for the row gallery interaction.
+FastAPI web application for an e-commerce product shop. It fetches products from DummyJSON, renders a paginated product table, supports searching, and uses JavaScript for the row gallery interaction.
 
 WordPress plugin version is included under `wordpress-plugin/compare-assignment`.
 

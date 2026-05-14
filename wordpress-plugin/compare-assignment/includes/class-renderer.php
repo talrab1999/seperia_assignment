@@ -21,8 +21,8 @@ final class Compare_Assignment_Renderer
             <div class="compare-page-shell">
                 <header class="compare-page-header">
                     <div>
-                        <p class="compare-eyebrow">Seperia EShop</p>
-                        <h2>Products Page</h2>
+                        <p class="compare-eyebrow">Product Catalog</p>
+                        <h2>E-Commerce Product Shop</h2>
                     </div>
                 </header>
 

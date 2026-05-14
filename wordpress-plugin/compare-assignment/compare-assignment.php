@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Compare Assignment
+ * Plugin Name: E-Commerce Product Shop
  * Description: Creates a Compare Assignment page and renders a DummyJSON product table with search, pagination, and galleries.
  * Version: 1.0.0
- * Author: Seperia Assignment
+ * Author: E-Commerce Product Shop
  */
 
 if (!defined('ABSPATH')) {
